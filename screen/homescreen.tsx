@@ -1,4 +1,5 @@
-import React, {useEffect, useRef} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   View,
@@ -6,13 +7,20 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-
 import Swiper from 'react-native-swiper';
+import {ThunkDispatch} from 'redux-thunk';
+import {bindActionCreators} from 'redux';
 
 import MainCard from '../components/MainCard';
-
 import {COLOR} from '../utils/constants.ts';
+import {Sensor} from '../types/Sensor.ts';
+import {AppState, GET_SENSORS} from '../store/index';
+import {AppActions} from '../types/actions.ts';
+import {startSetExpense} from '../actions/sensors.ts';
+import {useDispatch, useSelector, State} from '../store/types.ts';
+
 const LeftIcon = require('../assets/images/ic_chevron_left_28.png');
 const EditIcon = require('../assets/images/ic_pencil_2_28.png');
 const PowerIcon = require('../assets/images/ic_power_plug_2_16.png');
@@ -25,35 +33,54 @@ const WaterMeterIcon = require('../assets/images/ic_sensor_water_meter_2_24.png'
 
 const CloseIcon = require('../assets/images/ic_close_16.png');
 
-const data1 = {
-  id: '120600201',
-  image: TemperatureIcon,
-  name: 'TempIn1',
-  value: '62°',
-};
-
-const data2 = {
-  id: '734523412',
-  image: WaterMeterIcon,
-  name: 'Water 1',
-  value: '357,142',
-};
-
-const data3 = {
-  id: '120600253',
-  image: TemperatureOutsideIcon,
-  name: 'TempOut1',
-  value: '75°',
-};
-
-const data4 = {
-  id: '645060856',
-  image: HumidityIcon,
-  name: 'Humidity1',
-  value: '62%',
-};
+const DATA = [
+  {
+    id: '120600201',
+    image: TemperatureIcon,
+    name: 'TempIn1',
+    value: '62°',
+  },
+  {
+    id: '734523412',
+    image: WaterMeterIcon,
+    name: 'Water 1',
+    value: '357,142',
+  },
+  {
+    id: '120600253',
+    image: TemperatureOutsideIcon,
+    name: 'TempOut1',
+    value: '75°',
+  },
+  {
+    id: '645060856',
+    image: HumidityIcon,
+    name: 'Humidity1',
+    value: '62%',
+  },
+];
 
 const HomeScreen: React.FC = () => {
+  const dispatch = useDispatch();
+  const [selectedId, setSelectedId] = useState(null);
+  const sensors = useSelector((state: State) => {
+    console.log('inside selectorrrrr', state.sensors);
+    return state.sensors;
+  });
+
+  useEffect(() => {
+    const payload = {
+      gatewayIMEINumber: '866834041025649',
+    };
+    //dispatch(startSetExpense(payload));
+
+    dispatch({type: GET_SENSORS, payload});
+  }, []);
+
+  const renderItem = ({item}) => {
+    return <MainCard data={item} />;
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -156,14 +183,15 @@ const HomeScreen: React.FC = () => {
                       flexDirection: 'row',
                       justifyContent: 'center',
                       alignItem: 'center',
-                    }}></View>
+                    }}
+                  />
                 </View>
               </View>
             </View>
-            <View style={styles.slide2}></View>
-            <View style={styles.slide3}></View>
-            <View style={styles.slide2}></View>
-            <View style={styles.slide3}></View>
+            <View style={styles.slide2} />
+            <View style={styles.slide3} />
+            <View style={styles.slide2} />
+            <View style={styles.slide3} />
           </Swiper>
         </View>
 
@@ -177,21 +205,16 @@ const HomeScreen: React.FC = () => {
           Last update 08:32:14
         </Text>
 
-        <View style={{paddingLeft: 16, paddingRight: 16}}>
-          <View style={styles.row}>
-            <MainCard data={data1} />
-            <View style={{width: 20}}></View>
-            <MainCard data={data2} />
-          </View>
-          <View style={{height: 20}}></View>
-          <View style={styles.row}>
-            <MainCard data={data3} />
-            <View style={{width: 20}}></View>
-            <MainCard data={data4} />
-          </View>
-        </View>
+        <FlatList
+          data={DATA}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          extraData={selectedId}
+          style={{paddingLeft: 16, paddingRight: 16}}
+          numColumns={2}
+        />
 
-        <View style={{height: 20}}></View>
+        <View style={{height: 20}} />
 
         <View style={{backgroundColor: '#e6e9ed', padding: 10}}>
           <View
@@ -245,7 +268,7 @@ const HomeScreen: React.FC = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{height: 20}}></View>
+        <View style={{height: 20}} />
       </View>
     </ScrollView>
   );
@@ -279,26 +302,24 @@ const styles = StyleSheet.create({
   },
 
   circleCard: {
-    backgroundColor: `${COLOR.ICON_BACK}`,
+    backgroundColor: `${COLOR.WHITE}`,
     width: 32,
     height: 32,
     borderRadius: 32 / 2,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
     elevation: 4,
     marginRight: 10,
   },
 
   buttonCard: {
     alignSelf: 'center',
-    backgroundColor: `${COLOR.ICON_BACK}`,
+    backgroundColor: `${COLOR.WHITE}`,
     width: 100,
     height: 32,
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
     elevation: 4,
     marginRight: 10,
     marginTop: 5,

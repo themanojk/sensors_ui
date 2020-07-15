@@ -1,9 +1,8 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import styled from 'styled-components/native';
 import {COLOR} from '../utils/constants';
-import {SectionList, Image, View, Text, StyleSheet} from 'react-native';
+import {Image, View, Text, StyleSheet} from 'react-native';
 
-const EditIcon = require('../assets/images/ic_pencil_2_28.png');
 const NetworkIcon = require('../assets/images/ic_connection_full_16.png');
 
 type Props = {
@@ -11,8 +10,6 @@ type Props = {
 };
 
 const MainCard: React.FC<Props> = ({data}: Props) => {
-  console.log('Manoj');
-  console.log(data);
   return (
     <View style={styles.container}>
       <View
@@ -82,6 +79,7 @@ const styles = StyleSheet.create({
     width: 155,
     backgroundColor: 'white',
     elevation: 4,
+    margin: 10,
   },
 
   iconBack: {
