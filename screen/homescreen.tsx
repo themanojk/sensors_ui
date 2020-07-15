@@ -16,8 +16,8 @@ import {bindActionCreators} from 'redux';
 import MainCard from '../components/MainCard';
 import {COLOR} from '../utils/constants.ts';
 import {Sensor} from '../types/Sensor.ts';
-import {AppState, GET_SENSORS} from '../store/index';
-import {AppActions} from '../types/actions.ts';
+import {AppState} from '../store/index';
+import {AppActions, GET_SENSORS} from '../types/actions.ts';
 import {startSetExpense} from '../actions/sensors.ts';
 import {useDispatch, useSelector, State} from '../store/types.ts';
 

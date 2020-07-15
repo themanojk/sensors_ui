@@ -1,6 +1,6 @@
 import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
 import * as api from '../apiRequest';
-import {GET_SENSORS} from '../utils/apiPaths';
+import {FETCH_SENSORS} from '../utils/apiPaths';
 import {
   AppActions,
   SET_SENSORS,
@@ -12,7 +12,7 @@ import {startSetExpense} from '../actions/sensors';
 
 function* fetchSensors(action) {
   try {
-    const sensors = yield call(api.post, GET_SENSORS, action.payload);
+    const sensors = yield call(api.post, FETCH_SENSORS, action.payload);
     console.log('saga', sensors);
     yield put(startSetExpense(sensors));
   } catch (e) {

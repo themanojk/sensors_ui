@@ -2,7 +2,6 @@ import {Dispatch} from 'redux';
 import {Sensor} from '../types/Sensor';
 import {AppActions, SET_SENSORS} from '../types/actions';
 import {AppState} from '../store/index';
-import {GET_SENSORS} from '../utils/apiPaths';
 import ApiResponse from '../types/ApiResponse';
 
 export const setSensors = (sensors: Sensor[]): AppActions => ({
