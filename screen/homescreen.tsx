@@ -65,7 +65,24 @@ const HomeScreen: React.FC = () => {
   const [selectedId, setSelectedId] = useState(null);
   const sensors = useSelector((state: State) => {
     console.log('inside selectorrrrr', state.sensors);
-    return state.sensors;
+    let data = (state.sensors.sensors || []).map((item) => {
+      let obj = {
+        id: item.sensorSerialNumber,
+        image:
+          item.fSensorTypeDescription === 'Temperature'
+            ? TemperatureIcon
+            : item.fSensorTypeDescription === 'Outdoor temperature'
+            ? TemperatureOutsideIcon
+            : item.fSensorTypeDescription === 'Humidity'
+            ? HumidityIcon
+            : WaterMeterIcon,
+        name: item.sensorName,
+        value: item.fSensorRSSI,
+      };
+
+      return obj;
+    });
+    return data;
   });
 
   useEffect(() => {
@@ -206,7 +223,7 @@ const HomeScreen: React.FC = () => {
         </Text>
 
         <FlatList
-          data={DATA}
+          data={sensors}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           extraData={selectedId}

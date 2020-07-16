@@ -40,7 +40,9 @@ const MainCard: React.FC<Props> = ({data}: Props) => {
           fontWeight: 'bold',
           marginTop: -30,
           marginLeft: 10,
-        }}>
+        }}
+        numberOfLines={1}
+        ellipsizeMode="tail">
         {data.id}
       </Text>
 
@@ -51,7 +53,9 @@ const MainCard: React.FC<Props> = ({data}: Props) => {
           fontWeight: 'bold',
           marginTop: 5,
           marginLeft: 10,
-        }}>
+        }}
+        numberOfLines={2}
+        ellipsizeMode="tail">
         {data.name}
       </Text>
 
@@ -62,7 +66,9 @@ const MainCard: React.FC<Props> = ({data}: Props) => {
             fontSize: 24,
             fontWeight: 'bold',
             margin: 5,
-          }}>
+          }}
+          numberOfLines={1}
+          ellipsizeMode="tail">
           {data.value}
         </Text>
       </View>
